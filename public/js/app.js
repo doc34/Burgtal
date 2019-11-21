@@ -3098,7 +3098,8 @@ __webpack_require__.r(__webpack_exports__);
       axios.post(uri, "edit=" + this.edit).then(function (response) {
         return _this3.projekt = response.data;
       });
-    }
+    } // this.$router.push({ path: 'post', query: { post_slug: 'hello-world' } })
+
   },
   filters: {},
   mounted: function mounted() {

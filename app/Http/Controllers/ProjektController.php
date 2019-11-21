@@ -38,17 +38,18 @@ class ProjektController extends Controller
      */
     public function store(Request $request)
     {
-        $knumm = env("KUNDEN_NUMM");
-        $pcod = env("PROJEKT_COD");
+        $knumm = env('KUNDEN_NUMM');
+        $pcod = env('PROJEKT_COD');
         $user = Auth::user();
         $random = time();
-
+        $te=env('APP.ENV');
         $projektnum = new Projektnummer;
         $projektnum->random = $random;
         $projektnum->user_id = $user->id;
         $projektnum->save();
+
         $NUM = Projektnummer::where('random', $random)->first();
-        $pn = $pcod . ($NUM->id + $knumm);
+        $pn = $pcod . $NUM->id + $knumm;
 
         Projektnummer::where('random', $random)
             ->update(['num' => $pn]);
@@ -56,13 +57,14 @@ class ProjektController extends Controller
 
         $pro = new Projekt;
         $pro->kunden_id = $request->edit;
-        $pro->projektnummer = $pn;
+        $pro->projektnummer = $pcod.$pn;
         $pro->save();
 
         $projekt = Projekt::where('projektnummer', $pn)->first();
 
         return response()->json([
             'projekt' => $projekt,
+            'pn'=> env('APP.ENV')
         ]);
     }
 

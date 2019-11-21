@@ -154,6 +154,8 @@ export default {
         .post(uri, "edit=" + this.edit)
         .then(response => (this.projekt = response.data));
     }
+
+  // this.$router.push({ path: 'post', query: { post_slug: 'hello-world' } })
   },
 
   filters: {},
