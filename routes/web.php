@@ -30,6 +30,7 @@ Route::get('/stark', 'StarckController@index')->name('stark');
 Route::get('/art', 'ArtController@index')->name('art');
 
 
+
 Route::get('/api/anrede', 'AnredeController@index')->name('api.anrede');
 Route::post('/api/create/kunde', 'KundenController@store')->name('api.create.kunde');
 
