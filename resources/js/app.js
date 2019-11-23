@@ -1,6 +1,7 @@
 import Vue from 'vue'; // Importing Vue Library
 import VueRouter from 'vue-router'; // importing Vue router library
 
+
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -39,6 +40,8 @@ Vue.component('Seitbar', require('./components/Seitbar.vue').default);
  import Kunden from './components/kunden.vue'
  import Aufgaben from './components/Aufgabe.vue'
  import Aufgabenform from './components/Aufgabeform.vue'
+ import Projektdash from './components/Projektdasch.vue'
+ import Kontakte from './components/KontakteForm.vue'
 
 const router = new VueRouter({
     base: 'admin',
@@ -58,6 +61,11 @@ const router = new VueRouter({
             component:ProjektForm
         },
         {
+            name:'projektdasch',
+            path: '/projektdasch',
+            component:Projektdash
+        },
+        {
             name:'kundenform',
             path: '/kundencrate',
             component:Kundenform
@@ -74,10 +82,14 @@ const router = new VueRouter({
         },
         {
             name:'aufgabenform',
-            path: '/newaufgaben',
+            path: '/newaufgaben/',
             component:Aufgabenform
         },
-
+        {
+            name:'Kontakte',
+            path: '/Kontakte/',
+            component:Kontakte
+        },
 
     ],
 })

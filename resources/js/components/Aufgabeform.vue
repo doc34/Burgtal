@@ -276,7 +276,7 @@
 import svgpage from "./svg.vue";
 
 export default {
-  props: {},
+
 
   data: function() {
     return {
@@ -287,7 +287,7 @@ export default {
       materialshow: "5",
       stark: {},
       art: {},
-      projektid: "2",
+    //   projektid: "2",
       aufgabenliste: {},
       VK: true,
       UK: true,

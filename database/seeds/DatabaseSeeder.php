@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
          $this->call( MaterialSeeder::class);
          $this->call( MaterialList::class);
          $this->call( StarkSeeder::class);
-
+         $this->call( BurgtalconfSeeder::class);
+         $this->call( StatusSeeder::class);
     }
 }

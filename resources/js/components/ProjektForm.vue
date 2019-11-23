@@ -1,71 +1,93 @@
 <template>
-  <div class="row">
-
-
-    <div class="card-body">
+  <div class="templade">
+    <div class="cad border">
+      <div class="card-header bg-transparent">
+        <projektnav></projektnav>
+      </div>
+      <div class="card-body">
+        <div class="cadr-titel">
+          <div class="form-row">
+            <h4 v-if="name">{{name + ' ' + vorname }}</h4>
+            <h4 v-else>Neuer Kontakt / Projekt</h4>
+            <h4 v-if="projekt.projekt" class="ml-3">{{'Projekt '+ projekt.projekt.projektnummer }}</h4>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
         <form @submit.prevent="updatePost">
-      <div class="card-header bg-transparent ml-4">
-        <div class="form-row">
-          <h4 v-if="name">{{name + ' ' + vorname }}</h4>
-          <h4 v-else>Neuer Kontakt / Projekt</h4>
-          <h4 v-if="projekt.projekt" class="ml-3">{{'Projekt '+ projekt.projekt.projektnummer }}</h4>
-        </div>
+          <div class="card-text">
+            <div class="form-row">
+              <div class="form-group col-md-4 col-sm-12">
+                <label for="inputKunde">Geschäftspartner</label>
+                <input
+                  v-if="name"
+                  type="text"
+                  :value="name"
+                  class="form-control"
+                  id="inputKunde"
+                  disabled
+                />
+                <input
+                  v-else
+                  v-model="searchQuery"
+                  type="text"
+                  class="form-control"
+                  id="inputKunde"
+                  placeholder="Name"
+                />
+              </div>
+
+              <div v-if="name" class="form-group col-md-4 col-sm-12">
+                <label for="inputprojekt">Projektname</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="inputprojekt"
+                  placeholder="Name"
+                  v-model="update.projektname"
+                />
+              </div>
+              <div v-if="name" class="form-group col-md-4 col-sm-12">
+                <label for="inputprojekt">Projektleiter</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="inputprojekt"
+                  placeholder="Name"
+                  v-model="update.projektleiter"
+                />
+              </div>
+            </div>
+
+            <div v-if="name" class="form-row">
+              <div class="form-group col-md-4 col-sm-12">
+                <label for="inputadresse">Beschreibung</label>
+                <textarea
+                  projekt.bschreibung
+                  class="form-control"
+                  id="inputadresse"
+                  placeholder="Adresse"
+                  aria-label="With textarea"
+                  v-model="update.beschreibung"
+                ></textarea>
+              </div>
+              <div class="form-group col-md-4 col-sm-12">
+                <label for="inputinfo">Info über Projekt</label>
+                <textarea
+                  projekt.info
+                  class="form-control"
+                  id="inputinfo"
+                  placeholder="Adresse"
+                  aria-label="With textarea"
+                  v-model="update.info"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+
+          <button v-if="name" class="btn btn-primary" type="submit">weiter</button>
+        </form>
       </div>
-
-      <div class="card-text">
-        <div class="form-row">
-          <div class="form-group col-md-4 col-sm-12">
-            <label for="inputKunde">Geschäftspartner</label>
-            <input
-              v-if="name"
-              type="text"
-              :value="name"
-              class="form-control"
-              id="inputKunde"
-              disabled
-
-            />
-            <input
-              v-else
-              v-model="searchQuery"
-              type="text"
-              class="form-control"
-              id="inputKunde"
-              placeholder="Name"
-            />
-          </div>
-
-          <div class="form-group col-md-4 col-sm-12">
-            <label for="inputprojekt">Projektname</label>
-            <input type="text" class="form-control" id="inputprojekt" placeholder="Name" v-model="update.projektname" />
-          </div>
-          <div class="form-group col-md-4 col-sm-12">
-            <label for="inputprojekt">Projektleiter</label>
-            <input type="text" class="form-control" id="inputprojekt" placeholder="Name" v-model="update.projektleiter" />
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group col-md-4 col-sm-12">
-            <label for="inputadresse">Beschreibung</label>
-            <textarea
-            projekt.bschreibung
-              class="form-control"
-              id="inputadresse"
-              placeholder="Adresse"
-              aria-label="With textarea"
-            ></textarea>
-          </div>
-          <div class="form-group col-md-4 col-sm-12">
-            <label for="inputstart">Start Datum</label>
-            <input type="date" class="form-control" id="inputstart" placeholder="Name" />
-          </div>
-        </div>
-      </div>
-<button class="btn btn-primary" type="submit">weiter</button>
-
-</form>
-
     </div>
 
     <!-- tabele card -->
@@ -101,20 +123,32 @@
 </template>
 
 <script>
+import Projektnav from "./ProjektNav.vue";
+
+import moment from "moment";
 export default {
+  components: {
+    Projektnav
+  },
+
   data: function() {
     return {
+      date: "",
+      data:{},
       kunden: {},
       query: {},
-      update:{},
+      update: {},
       projekt: {},
       searchQuery: "",
       edit: "",
+      update: {},
       name: "",
       showtable: false
     };
   },
-  created: function() {},
+  created: function() {
+    this.adddate();
+  },
 
   watch: {
     searchQuery: function(val, oldVal) {
@@ -128,10 +162,12 @@ export default {
     }
   },
 
-  computed: {
-
-  },
+  computed: {},
   methods: {
+    formattedDate(val) {
+      return moment(val).format("YYYY-MM-DD");
+    },
+
     searchQuerypost() {
       let uri = "/api/searchQuery/kunde";
 
@@ -153,9 +189,22 @@ export default {
       axios
         .post(uri, "edit=" + this.edit)
         .then(response => (this.projekt = response.data));
-    }
+    },
+    updatePost() {
+      let uri = "/api/update/projekt";
+      this.update.id = this.projekt.projekt.id;
+      axios
+        .post(uri, this.update)
+        .then(response => (this.data = response.data));
+      this.$router.push({
+        name: "projekt",
+        query: { projekt: this.projekt.projekt.id }
+      });
+    },
 
-  // this.$router.push({ path: 'post', query: { post_slug: 'hello-world' } })
+    adddate: function(params) {
+      this.date = this.formattedDate(new Date());
+    }
   },
 
   filters: {},

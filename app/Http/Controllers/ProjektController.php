@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Projekt;
 use App\Projektnummer;
+use App\Burtalconf;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -38,18 +39,23 @@ class ProjektController extends Controller
      */
     public function store(Request $request)
     {
-        $knumm = env('KUNDEN_NUMM');
-        $pcod = env('PROJEKT_COD');
+
+       $QNummer= Burtalconf::where('key', 'KUNDEN_NUMM')->first();
+       $Qpcod= Burtalconf::where('key', 'PROJEKT_COD')->first();
+
+
+        $knumm = $QNummer->var;
+        $pcod = $Qpcod->var;
         $user = Auth::user();
         $random = time();
-        $te=env('APP.ENV');
+
         $projektnum = new Projektnummer;
         $projektnum->random = $random;
         $projektnum->user_id = $user->id;
         $projektnum->save();
 
         $NUM = Projektnummer::where('random', $random)->first();
-        $pn = $pcod . $NUM->id + $knumm;
+        $pn = $pcod.($NUM->id + $knumm);
 
         Projektnummer::where('random', $random)
             ->update(['num' => $pn]);
@@ -57,14 +63,14 @@ class ProjektController extends Controller
 
         $pro = new Projekt;
         $pro->kunden_id = $request->edit;
-        $pro->projektnummer = $pcod.$pn;
+        $pro->projektnummer =$pn;
         $pro->save();
 
         $projekt = Projekt::where('projektnummer', $pn)->first();
 
         return response()->json([
             'projekt' => $projekt,
-            'pn'=> env('APP.ENV')
+
         ]);
     }
 
@@ -94,9 +100,19 @@ class ProjektController extends Controller
      * @param  \App\Projekt  $projekt
      * @return \Illuminate\Http\Response
      */
-    public function edit(Projekt $projekt)
+    public function edit(Request $request, Projekt $projekt)
     {
-        //
+        $projekt = DB::table('projekts')
+
+        ->leftJoin('kundens', 'kundens.id', '=', 'projekts.kunden_id')
+        ->leftJoin('statuss', 'statuss.id', '=', 'projekts.status_id')
+        ->select('kundens.name', 'kundens.vorname', 'projekts.*','statuss.status', 'statuss.css' )
+        ->where('projekts.id', '=', $request->edit)
+
+        ->first();
+    return response()->json([
+        'projekt' => $projekt,
+    ]);
     }
 
     /**
@@ -108,7 +124,20 @@ class ProjektController extends Controller
      */
     public function update(Request $request, Projekt $projekt)
     {
-        //
+
+        $pro = Projekt::find($request->id);
+        $pro->projektname =$request->projektname;
+        $pro->projektleiter =$request->projektleiter;
+        $pro->info  =$request->info;
+        $pro->bschreibung =$request->beschreibung;
+        $pro->status_id ='1';
+        $pro->save();
+
+        return response()->json([
+            'projekt_id' => $request->id,
+        ]);
+
+
     }
 
     /**

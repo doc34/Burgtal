@@ -46,3 +46,12 @@ Route::post('/api/show/queryshow', 'AufgabenlisteController@queryshow')->name('a
 
 Route::post('/api/store/projekt', 'ProjektController@store')->name('api.store.projekt');
 Route::get('/api/show/projekt', 'ProjektController@show')->name('api.show.projekt');
+Route::post('/api/edit/projekt', 'ProjektController@edit')->name('api.edit.projekt');
+Route::post('/api/update/projekt', 'ProjektController@update')->name('api.update.projekt');
+
+//Kontakte Projekt
+Route::post('/api/store/kontakte', 'KontakteController@store')->name('api.store.kontakte');
+Route::post('/api/show/kontakte', 'KontakteController@showprojekt')->name('api.show.kontakte');
+
+//
+// Admin Panel
