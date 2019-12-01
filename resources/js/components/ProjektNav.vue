@@ -16,7 +16,7 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="#">Aufgaben</a>
+      <a @click.prevent="page='aufgaben'" class="nav-link" href="#">Aufgaben</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="#">Zeitaufwand</a>
@@ -82,18 +82,17 @@ export default {
 
     eidtpath: function name(val, oldVal) {
       this.cssclass();
-    },
-
+    }
   },
 
   computed: {},
   methods: {
     addPage(val) {
-this.page=val
+      this.page = val;
 
       this.$router.push({
         name: "projekt",
-        query: { projekt: this.projektid, page: val  }
+        query: { projekt: this.projektid, page: val }
       });
     },
 

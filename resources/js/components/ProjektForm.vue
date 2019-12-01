@@ -1,9 +1,7 @@
 <template>
   <div class="templade">
     <div class="cad border">
-      <div class="card-header bg-transparent">
-        <projektnav></projektnav>
-      </div>
+      <div class="card-header bg-transparent"></div>
       <div class="card-body">
         <div class="cadr-titel">
           <div class="form-row">
@@ -36,7 +34,15 @@
                   placeholder="Name"
                 />
               </div>
-
+              <div v-if="edit < 1 " class="form-group col-md-4 col-sm-12">
+                <ul class="nav">
+                  <li class="nav-item">
+                    <router-link to="/kundencrate">
+                      <a class="nav-link mt-4" href="#">+ Kunden</a>
+                    </router-link>
+                  </li>
+                </ul>
+              </div>
               <div v-if="name" class="form-group col-md-4 col-sm-12">
                 <label for="inputprojekt">Projektname</label>
                 <input
@@ -123,18 +129,15 @@
 </template>
 
 <script>
-import Projektnav from "./ProjektNav.vue";
-
 import moment from "moment";
 export default {
-  components: {
-    Projektnav
-  },
+  components: {},
 
   data: function() {
     return {
       date: "",
-      data:{},
+      data: {},
+      kundennum: '',
       kunden: {},
       query: {},
       update: {},
@@ -143,7 +146,8 @@ export default {
       edit: "",
       update: {},
       name: "",
-      showtable: false
+      showtable: false,
+      test: ""
     };
   },
   created: function() {
@@ -198,12 +202,25 @@ export default {
         .then(response => (this.data = response.data));
       this.$router.push({
         name: "projekt",
-        query: { projekt: this.projekt.projekt.id }
+        query: {
+          projekt: this.projekt.projekt.id
+        }
       });
     },
 
     adddate: function(params) {
-      this.date = this.formattedDate(new Date());
+      const time = new Date();
+      this.date = this.formattedDate(time);
+      this.routget();
+    },
+    routget: function() {
+      if (empty(this.$router.params)) {
+        this.kundennum = this.$router.params.kundennum;
+      } else {
+        this.kundennum = "hallo";
+      }
+
+      this.kundennum = "hal";
     }
   },
 

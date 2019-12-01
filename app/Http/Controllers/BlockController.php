@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Material;
-use DB;
+use App\Block;
 use Illuminate\Http\Request;
 
-class MaterialController extends Controller
+class BlockController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -38,63 +37,37 @@ class MaterialController extends Controller
     {
         //
     }
-   /**
-     * Display the specified resource.
-     *
-     * @param  \App\Material  $kunden
-     * @return \Illuminate\Http\Response
-     */
-    public function searchQuery(Request $request, Material $material)
-    {
 
-        $material = DB::table('materials')
-        ->Where('material', 'LIKE',  $request->suchen . '%')
-            ->paginate(15);
-
-
-
-
-        return response()->json([
-            'material' => $material ,
-        ]);
-    }
     /**
      * Display the specified resource.
      *
-     * @param  \App\Material  $material
+     * @param  \App\Block  $block
      * @return \Illuminate\Http\Response
      */
-    public function show(Material $material)
+    public function show(Block $block)
     {
-        $material = DB::table('materials');
-        return response()->json([
-            'material' => $material ,
-        ]);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Material  $material
+     * @param  \App\Block  $block
      * @return \Illuminate\Http\Response
      */
-    public function edit(Material $material, Request $request)
+    public function edit(Block $block)
     {
-         $material = DB::table('materials')
-         ->Where('id',  $request->id )->first();
-        return response()->json([
-            'material' => $material ,
-        ]);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Material  $material
+     * @param  \App\Block  $block
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Material $material)
+    public function update(Request $request, Block $block)
     {
         //
     }
@@ -102,10 +75,10 @@ class MaterialController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Material  $material
+     * @param  \App\Block  $block
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Material $material)
+    public function destroy(Block $block)
     {
         //
     }

@@ -155,58 +155,69 @@
           </div>
 
           <button @click="addPost()" class="btn btn-primary" type="button">Speichern</button>
-           <button @click="showkontaktform = false" class="btn btn-primary" type="button">Schliesen</button>
+          <button @click="showkontaktform = false" class="btn btn-primary" type="button">Schliesen</button>
         </form>
       </div>
     </div>
 
-<div class="card mt-2">
-    <div class="card-header">
-      <h5>Kontakte</h5>
-      <ul class="nav justify-content-center">
-        <li class="nav-item">
-          <a class="nav-link " @click="showkontaktform=true "  href="#">Kontakte Hinzufügen</a>
-        </li>
-      </ul>
+    <div class="card mt-2">
+      <div class="card-header">
+        <h5>Kontakte</h5>
+        <ul class="nav justify-content-center">
+          <li class="nav-item">
+            <a class="nav-link" @click.prevent="showkontaktinfo=true " href="#">Kontakte Hinzufügen</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" @click.prevent="showkontaktform=true " href="#">Neuer Kontakte</a>
+          </li>
+        </ul>
+
+        <div v-if="showkontaktinfo === true" class="input-group-prepend mt-3">
+          <div class="material-icons input-group-text">search</div>
+          <input class="form-control" v-model=" searchQuery" />
+        </div>
+      </div>
+
+      <div class="card-body">
+        <table class="table table-sm tabble-striped table-inverse">
+          <thead class="thead-inverse">
+            <tr>
+              <th>Name</th>
+              <th>Position</th>
+              <th>Telefon</th>
+              <th>Handy</th>
+              <th>Telefon-privat</th>
+              <th>E-Mail</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="kontakte in kontakte.kontakte" :key="kontakte.id">
+              <td scope="row">{{kontakte.name + ' ' + kontakte.vorname}}</td>
+              <td>{{kontakte.position}}</td>
+              <td>{{kontakte.tel}}</td>
+              <td>{{kontakte.handy}}</td>
+              <td>{{kontakte.tel_privat}}</td>
+              <td>{{kontakte.email}}</td>
+              <td v-if="showkontaktinfo === true" >
+                <button v-if="searchQuery.length >= 1 " type="button" class="btn btn-outline-success"
+                    @click="addkontaktliste(kontakte.id)"
+                    >Hinzufügen</button>
+              </td>
+              <td  v-else-if=" showkontaktinfo === false " > Normal butten </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-
-
-    <div  class="card-body">
-      <table class="table table-sm tabble-striped table-inverse">
-        <thead class="thead-inverse">
-          <tr>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Telefon</th>
-            <th>Handy</th>
-            <th>Telefon-privat</th>
-            <th>E-Mail</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="kontakte in kontakte.kontakte" :key="kontakte.id">
-            <td scope="row">{{kontakte.name + ' ' + kontakte.vorname}}</td>
-            <td>{{kontakte.position}}</td>
-            <td>{{kontakte.tel}}</td>
-            <td>{{kontakte.handy}}</td>
-            <td>{{kontakte.tel_privat}}</td>
-            <td>{{kontakte.email}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-
   </div>
 </template>
 
 <script>
- import Kontakte from "./Kontakte.vue";
+import Kontakte from "./Kontakte.vue";
 
 export default {
-
-components: { Kontakte },
+  components: { Kontakte },
 
   props: {
     projektid: {
@@ -231,7 +242,9 @@ components: { Kontakte },
 
   data: function() {
     return {
-        showkontaktform:false,
+      showkontaktinfo: false,
+      showkontaktform: false,
+      searchQuery: "",
       land: {},
       anrede: {},
       load: this.load,
@@ -249,7 +262,15 @@ components: { Kontakte },
     this.addshow();
   },
 
-  watch: {},
+  watch: {
+    searchQuery: function(val, oldval) {
+      if (this.searchQuery.length >= 1) {
+        this.searchQuerypost();
+      } else {
+        this.addshow();
+      }
+    }
+  },
   load: "",
   computed: {},
   methods: {
@@ -260,6 +281,14 @@ components: { Kontakte },
       if (this.projektid) {
         this.query.projektid = this.projektid;
       }
+    },
+    searchQuerypost() {
+      let uri;
+      uri = "/api/searchQuery/kontakte";
+      this.query.suchen = this.searchQuery;
+      axios
+        .post(uri, this.query)
+        .then(response => (this.kontakte = response.data));
     },
 
     Anredeget() {
@@ -279,8 +308,21 @@ components: { Kontakte },
 
     addPost() {
       let uri = "api/store/kontakte";
-      axios.post(uri, this.query).then(response => (this.kontakte = response));
-      //this.$router.push({ name: "projekt", query: { projekt_id:  this.query.projektid , page:'kontakt' ,load:'1'   } })
+      axios
+        .post(uri, this.query)
+        .then(response => (this.kontakte = response.data));
+
+    },
+    addkontaktliste(val) {
+        this.query.kundenid = val;
+      let uri = "/api/store/kontaktelist";
+      axios
+        .post(uri, this.query)
+        .then(response => (this.kontakte = response.data));
+
+         this.searchQuery='';
+         this.showkontaktinfo=false;
+
     }
   },
 

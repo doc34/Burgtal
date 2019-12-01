@@ -66,6 +66,60 @@ class MaterialSeeder extends Seeder
          App\Material::updateOrCreate(['material' => 'Emerald Black','m_cod'=>'EMB']);
          App\Material::updateOrCreate(['material' => 'Fjord','m_cod'=>'FJ']);
          App\Material::updateOrCreate(['material' => 'Flechtinger Porphyr','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Baltic Rot','m_cod'=>'BA']);
+         App\Material::updateOrCreate(['material' => 'Bianco Sardo','m_cod'=>'biS']);
+         App\Material::updateOrCreate(['material' => 'Blanco Cristall','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Blue Eyes','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Cafe Imperial','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Gran Perla','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Gris España','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Grissal','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Giallo Venezia','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Ivory Braun Shivakashi','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Ivory Fantasy /  White','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Imperial White','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Juparana Colombo','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Kashmir Gold','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Kashmir White','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Kerala Green','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Labrador Scuro Speziale','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Labrador Blue Pearl GT','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Mondariz','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Multicolor Rot India','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Nero Angola','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Nero Assoluto','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'New Imperial Red','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Oro Veneziano','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Padang Cristallo TG 34','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Padang Hell TG 33','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Padang Dunkel TG 36','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Padang Giallo TG39','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Padang Juparana TG 30','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Padang Lillac Rose TG 78','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Paradiso Bash / Chiaro','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Paradiso Scuro','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Porto Branco','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Porto Rosa','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Rosa Beta','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Rosa Porino','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Serizzo Antigorio','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Silver Cloud','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Star Galaxy','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Tropical Grün','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Verde Eucalypto','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Verde Oliva','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Viscont White','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Vizac Blue / Bahama','m_cod'=>'FLJ']);
+         App\Material::updateOrCreate(['material' => 'Wolga Blue','m_cod'=>'FLJ']);
+
+
+
+
+
+
+
+
+
 
 
 

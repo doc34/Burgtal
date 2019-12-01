@@ -41,6 +41,7 @@ class CreateLieferantsTable extends Migration
     {
 
         Schema::table('kundens', function (Blueprint $table) {
+            
             $table->dropColumn('lieferantnum');
         });
         Schema::enableForeignKeyConstraints();

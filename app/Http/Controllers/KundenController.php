@@ -51,15 +51,14 @@ class KundenController extends Controller
         $kn = '';
         $lief='';
         $kun='';
-        $knumm = env("KUNDEN_NUMM");
-        $kcod = env("KUNDEN_COD");
-        $lcod = env("LIEFERANT_COD");
+       
         $random = time();
         $user = Auth::user();
         $lief=$request->lieferantenconf;
         $kun=$request->kundenconf;
-
-
+        $lcod=DB::table('burtalconfs')->where('key','LIEFERANT_COD')->first();
+        $kcod=DB::table('burtalconfs')->where('key','KUNDEN_COD')->first();
+        $knumm=DB::table('burtalconfs')->where('key','KUNDEN_NUMM')->first();
 
         if ($kun == 1 ) {
             $Kundennum = new Kundennummer;
@@ -67,20 +66,20 @@ class KundenController extends Controller
             $Kundennum->user_id = $user->id;
             $Kundennum->save();
             $NUM = Kundennummer::where('random', $random)->first();
-            $kn = $kcod . ($NUM->id + $knumm);
+            $kn = $kcod->var . ($NUM->id + $knumm->var);
 
             Kundennummer::where('random', $random)
                 ->update(['num' => $kn]);
         }
 
-
+//TODO Kundennummer lieferantennummer
         if ( $lief == 1 ) {
             $Lieferantnum = new Lieferant;
             $Lieferantnum->random = $random;
             $Lieferantnum->user_id = $user->id;
             $Lieferantnum->save();
             $lNUM = Lieferant::where('random', $random)->first();
-            $ln = $lcod . ($lNUM->id + $knumm);
+            $ln = $lcod->var. ($lNUM->id + $knumm)->var;
             Lieferant::where('random', $random)
                 ->update(['num' => $ln]);
 
@@ -111,7 +110,12 @@ class KundenController extends Controller
         $kunde->rechtsform_id = $request->rechtsformid;
         $kunde->user_id = $user->id;
         $kunde->save();
-        return response()->json();
+if ($request->kundenconf == 1 ){
+        return response()->json([
+            'kundennum' =>  $kn,
+            'page'=>$request->page
+        ]);
+}
     }
 
     /**

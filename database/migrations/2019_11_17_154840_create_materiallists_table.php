@@ -16,7 +16,8 @@ class CreateMateriallistsTable extends Migration
         Schema::create('materiallists', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('materal_list_name');
-            
+            $table->string('materal_list_cod');
+            $table->string('mass');
             $table->timestamps();
         });
     }

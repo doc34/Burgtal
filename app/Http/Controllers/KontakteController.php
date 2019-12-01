@@ -29,6 +29,31 @@ class KontakteController extends Controller
     {
         //
     }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function StoreKontakteliste(Request $request)
+    {
+
+
+        $liste = new Kontakteliste;
+        $liste->kunden_id = $request->kundenid;
+        $liste->projekt_id = $request->projektid;
+        $liste->kontakte_id = $request->kundenid;
+        $liste->save();
+
+        $kontakte = DB::table('kontaktelistes')
+            ->leftJoin('kontaktes', 'kontaktes.id', '=', 'kontaktelistes.kontakte_id')
+            ->where('kontaktelistes.projekt_id', $request->projekt_id)
+            ->get();
+
+        return response()->json([
+            'kontakte' => $kontakte,
+        ]);
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -54,7 +79,7 @@ class KontakteController extends Controller
         $query->ort = $request->ort;
         $query->strasse = $request->strasse;
         $query->tel = $request->tel;
-        $query->tel_privat = $request->tel1;
+        $query->tel_privat = $request->tel_privat;
         $query->geb = $request->geb;
         $query->handy = $request->handy;
         $query->email = $request->email;
@@ -71,9 +96,34 @@ class KontakteController extends Controller
         $liste->kontakte_id = $find->id;
         $liste->save();
 
+        $kontakte = DB::table('kontaktelistes')
+            ->Join('kontaktes', 'kontaktes.id', '=', 'kontaktelistes.kontakte_id')
+            ->where('kontaktelistes.projekt_id', $request->projektid)
+            ->get();
 
-
+        return response()->json([
+            'kontakte' => $kontakte,
+        ]);
     }
+    /**
+     * Display the specified resource.
+     * 'LIKE'
+     * @param  \App\Kontakte  $kontakte kontaktes
+     * @return \Illuminate\Http\Response
+     */
+    public function searchQuery(Kontakte $kontakte, Request $request)
+    {
+        $kontakte = DB::table('kontaktes')
+            ->where('kontaktes.name', 'LIKE', '%' . $request->suchen . '%')
+            ->get();
+        return response()->json([
+            'kontakte' => $kontakte,
+        ]);
+    }
+
+
+
+
 
     /**
      * Display the specified resource.
@@ -84,8 +134,8 @@ class KontakteController extends Controller
     public function showprojekt(Kontakte $kontakte, Request $request)
     {
         $kontakte = DB::table('kontaktelistes')
-        ->leftJoin('kontaktes', 'kontaktes.id', '=', 'kontaktelistes.kontakte_id')
-            ->where('projekt_id', $request->projektid)
+            ->leftJoin('kontaktes', 'kontaktes.id', '=', 'kontaktelistes.kontakte_id')
+            ->where('kontaktelistes.projekt_id', $request->projektid)
             ->get();
 
         return response()->json([

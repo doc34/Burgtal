@@ -21,7 +21,7 @@
           <p
             v-if=" projekt.projekt"
             class="cart-text border-bottom w-75"
-          >{{'Start: '+ projekt.projekt.start | start }}</p>
+          >{{projekt.projekt.start | start }}</p>
           <p
             v-if=" projekt.projekt"
             class="cart-text border-bottom w-75"
@@ -39,38 +39,44 @@
           <p
             v-if=" projekt.projekt"
             class="cart-text border-bottom w-75"
-          >{{'Beschreibung: '+ projekt.projekt.bschreibung}}</p>
+          >{{projekt.projekt.bschreibung | beschreibung}}</p>
           <p
             v-if=" projekt.projekt"
             class="cart-text border-bottom w-75"
-          >{{'Info: '+ projekt.projekt.info}}</p>
+          >{{projekt.projekt.info | info}}</p>
         </div>
       </div>
     </div>
     <!-- einzelne Templade -->
-    <div
-    v-if="projekt.projekt"
-     >
-    <Kontakte-Form
-     v-if="this.$route.query.page =='kontakt' "
-    v-bind:projektid="this.$route.query.projekt"
-    v-bind:kundenid="projekt.projekt.kunden_id"
-    ></Kontakte-Form
-    ></div>
+    <div v-if="projekt.projekt">
+      <Kontakte-Form
+        v-if="this.$route.query.page =='kontakt' "
+        v-bind:projektid="this.$route.query.projekt"
+        v-bind:kundenid="projekt.projekt.kunden_id"
+      ></Kontakte-Form>
+
+  <!-- Auggaben form -->
+<AufgabeForm
+ v-if="this.$route.query.page =='aufgaben' "
+>
+
+</AufgabeForm>
+
+    </div>
   </div>
 </template>
 
 <script>
 import Projektnav from "./ProjektNav.vue";
 import KontakteForm from "./KontakteForm.vue";
-
+import AufgabeForm from "./Aufgabeform.vue";
 import moment from "moment";
 
 export default {
   components: {
     Projektnav,
     KontakteForm,
-
+    AufgabeForm
   },
 
   data: function() {
@@ -111,12 +117,31 @@ export default {
 
   filters: {
     start: function(val) {
-
-      if (val) {
-        let value = "Noch kein Termin";
+      if (val === null) {
+        let value = "Start: Noch kein Termin";
+        return value;
+      } else {
+        let value = "Start: " + val;
         return value;
       }
-
+    },
+    info: function(val) {
+      if (val === null) {
+        let value = "Info: Kein Eintrag ";
+        return value;
+      } else {
+        let value = "info: " + val;
+        return value;
+      }
+    },
+    beschreibung: function(val) {
+      if (val === null) {
+        let value = "Beschreibung: Kein Eintrag ";
+        return value;
+      } else {
+        let value = "Beschreibung: " + val;
+        return value;
+      }
     }
   },
   mounted() {

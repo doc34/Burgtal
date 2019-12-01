@@ -14,7 +14,11 @@ class MateriallistController extends Controller
      */
     public function index()
     {
-        //
+        $materiallist= Materiallist::all();
+        
+        return response()->json([
+            'materiallist' => $materiallist ,
+        ]);
     }
 
     /**

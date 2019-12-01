@@ -17,6 +17,8 @@ class CreateMaterial extends Migration
             $table->bigIncrements('id');
             $table->string('material');
             $table->string('m_cod')->nullable($value = true);
+            $table->string('img')->nullable($value = true);
+            $table->decimal('calk',8,2)->nullable($value = true);
             $table->timestamps();
         });
     }
@@ -28,6 +30,7 @@ class CreateMaterial extends Migration
      */
     public function down()
     {
+        Schema::enableForeignKeyConstraints();
         Schema::dropIfExists('materials');
     }
 }

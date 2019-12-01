@@ -41,7 +41,11 @@ methods: {
         .then(response => (this.info = response));
     },
 
-
+ materialeach: function(val) {
+      this.material.material.data.forEach((value, index) => {
+        if (val == value.id) {
+          this.name = value.material;
+        }
 
 
 },

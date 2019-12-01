@@ -31,6 +31,7 @@ Vue.component('Seitbar', require('./components/Seitbar.vue').default);
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
+ *UnTafeln
  */
 
  import Welcome from './components/dashboard.vue'
@@ -42,6 +43,9 @@ Vue.component('Seitbar', require('./components/Seitbar.vue').default);
  import Aufgabenform from './components/Aufgabeform.vue'
  import Projektdash from './components/Projektdasch.vue'
  import Kontakte from './components/KontakteForm.vue'
+ import Admin from './components/Admin.vue'
+ import Lager from './components/UnTafeln.vue'
+
 
 const router = new VueRouter({
     base: 'admin',
@@ -89,6 +93,16 @@ const router = new VueRouter({
             name:'Kontakte',
             path: '/Kontakte/',
             component:Kontakte
+        },
+        {
+            name:'Admin',
+            path: '/Admin/',
+            component:Admin
+        },
+        {
+            name:'lager',
+            path: '/lager/',
+            component:Lager
         },
 
     ],
