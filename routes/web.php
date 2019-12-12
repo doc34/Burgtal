@@ -28,11 +28,24 @@ Route::get('api/materiallist', 'MateriallistController@index')->name('api.materi
 Route::get('/api/materialblock', 'UnTafelController@index')->name('api.materialblock');
 Route::get('/stark', 'StarckController@index')->name('stark');
 Route::get('/art', 'ArtController@index')->name('art');
-
-
-
 Route::get('/api/anrede', 'AnredeController@index')->name('api.anrede');
 Route::post('/api/create/kunde', 'KundenController@store')->name('api.create.kunde');
+Route::get('api/show/format', function () {
+    return  App\Format::all();
+});
+
+
+
+
+// Pagination abfrage
+Route::get('api/show/material', function () {
+    return  App\Material::orderBy('material', 'asc')->paginate( 15 );
+});
+
+Route::get('api/searchQuery/material', function () {
+    return  App\Material::orderBy('material', 'asc')->paginate( 15 );
+});
+
 
 
 // suchen anfrage post
@@ -64,6 +77,15 @@ Route::post('/api/store/kontaktelist', 'KontakteController@StoreKontakteliste')-
 // Unmaßtafel
 Route::post('/api/store/unmasstafel', 'UnTafelController@store')->name('api.store.unmasstafel');
 
-//
+//updateimg
 // Admin Panel
 Route::post('/api/edit/material', 'MaterialController@edit')->name('api.edit.material');
+Route::post('/api/show/material', 'MaterialController@show')->name('api.show.material');
+Route::post('/api/img/material/{id}', 'MaterialController@updateimg')->name('api.img.material.id');
+Route::post('/api/updata/material', 'MaterialController@update')->name('api.updata.material');
+Route::post('/api/del/material', 'MaterialController@destroy')->name('api.del.material');
+Route::post('/api/store/material', 'MaterialController@store')->name('api.store.material');
+Route::get('/api/lieferant', 'LieferantController@index')->name('api.lieferant');
+Route::post('/api/store/prisliste', 'PreisliesteController@store')->name('api.store.prisliste');
+Route::post('/api/serach/prisliste', 'PreisliesteController@serach')->name('api.store.prisliste');
+Route::post('/api/del/prisliste', 'PreisliesteController@destroy')->name('api.del.prisliste');

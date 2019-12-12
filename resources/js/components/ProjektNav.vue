@@ -92,7 +92,7 @@ export default {
 
       this.$router.push({
         name: "projekt",
-        query: { projekt: this.projektid, page: val }
+        query: { projekt: this.projektid, aufgabe:'' ,page: val }
       });
     },
 

@@ -5,27 +5,26 @@
         <adminnav></adminnav>
       </div>
       <div class="card-body">
-<!-- Templade -->
-<AdminMaterial
-  v-if="this.$route.query.page =='material' "
-
-></AdminMaterial>
-
+          
+        <!-- Templade -->
+        <AdminMaterial v-if="this.$route.query.page =='material' "></AdminMaterial>
       </div>
     </div>
+    <MaterialEinkauf v-if="this.$route.query.page =='materialeinkauf' "></MaterialEinkauf>
   </div>
 </template>
 
 <script>
 import Adminnav from "./AdminNav";
 import AdminMaterial from "./AdminMaterial";
+import MaterialEinkauf from "./MaterialEinkauf";
 
 export default {
-  components: { Adminnav, AdminMaterial },
+  components: { Adminnav, AdminMaterial, MaterialEinkauf },
 
   data: function() {
     return {
-     page: this.$route.query.page,
+      page: this.$route.query.page,
       info: {},
       name: "",
       description: "",
@@ -52,22 +51,20 @@ export default {
     };
   },
   created: function() {
-       this.addPage();
+    this.addPage();
   },
 
   watch: {},
 
   computed: {},
   methods: {
-   addPage() {
+    addPage() {
       this.page = this.$route.query.page;
-    },
+    }
   },
 
   filters: {},
   mounted() {
-
-
     console.log("Component mounted.");
   }
 };

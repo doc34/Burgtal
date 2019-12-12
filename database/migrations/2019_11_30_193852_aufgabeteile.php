@@ -15,7 +15,7 @@ class Aufgabeteile extends Migration
     {
         Schema::create('aufgabeteiles', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('teilenum')->nullable($value = true);
+            $table->string('teilenum')->nullable($value = true);
             $table->integer('random');
             $table->unsignedBigInteger('aufgabenum_id')->nullable($value = true);
             $table->unsignedBigInteger('user_id')->nullable($value = true);
@@ -43,10 +43,10 @@ class Aufgabeteile extends Migration
     public function down()
     {
 
-        Schema::table('aufgabenlistes', function (Blueprint $table) {
-            $table->dropForeign('aufgabenlistes_aufgabeteile_id_foreign');
-             $table->dropColumn('aufgabeteile_id',);
-        });
+         Schema::table('aufgabenlistes', function (Blueprint $table) {
+             $table->dropForeign('aufgabenlistes_aufgabeteile_id_foreign');
+              $table->dropColumn('aufgabeteile_id',);
+         });
         Schema::dropIfExists('aufgabeteiles');
     }
 }

@@ -18,6 +18,7 @@ class CreateMateriallistsTable extends Migration
             $table->string('materal_list_name');
             $table->string('materal_list_cod');
             $table->string('mass');
+            $table->boolean('formart_conf')->nullable()->default(false);
             $table->timestamps();
         });
     }

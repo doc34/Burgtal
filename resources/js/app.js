@@ -1,5 +1,12 @@
 import Vue from 'vue'; // Importing Vue Library
 import VueRouter from 'vue-router'; // importing Vue router library
+Vue.use(require('vue-resource'));
+
+
+
+import Vue2Filters from 'vue2-filters'
+
+Vue.use(Vue2Filters)
 
 
 /**
@@ -12,6 +19,8 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 Vue.use(VueRouter);
+
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -25,6 +34,9 @@ Vue.use(VueRouter);
 //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 Vue.component('Seitbar', require('./components/Seitbar.vue').default);
+
+window.Bus = new Vue();
+Vue.component('flash-message', require('./components/FlashMessage.vue').default);
 //Vue.component('projekt', require('./components/Projekt.vue').default);
 
 /**
@@ -45,6 +57,7 @@ Vue.component('Seitbar', require('./components/Seitbar.vue').default);
  import Kontakte from './components/KontakteForm.vue'
  import Admin from './components/Admin.vue'
  import Lager from './components/UnTafeln.vue'
+
 
 
 const router = new VueRouter({

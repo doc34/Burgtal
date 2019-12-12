@@ -1,8 +1,6 @@
 <template>
-  <form id="search">
-    Search
-    <input name="query" v-model="searchQuery" />
-  </form>
+<img src=" ">
+
 </template>
 
 <script>
@@ -18,25 +16,7 @@ export default {
       success: "",
       error: "",
       material:[],
-      itemActions: {
-        type: Array,
-        default() {
-          return [
-            {
-              name: "edit-item",
-              permission: `UPDATE_${this.apiUrl.toUpperCase()}`,
-              icon: "fas fa-pencil-alt",
-              class: "btn btn-info"
-            },
-            {
-              name: "delete-item",
-              permission: `DESTROY_${this.apiUrl.toUpperCase()}`,
-              icon: "fas fa-trash-alt",
-              class: "btn btn-danger"
-            }
-          ];
-        }
-      }
+
     };
   },
   created: function() {},

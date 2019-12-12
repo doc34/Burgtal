@@ -1,36 +1,41 @@
 <template>
   <div>
+    <auftraginfo :auftrag="aufgabenumm.auftragnummer"></auftraginfo>
 
-<auftraginfo
-:auftrag="aufgabenumm.auftragnummer"
-
-></auftraginfo>
-
-      <!-- auftraginfo ende -->
-    <div class="card w-100 bg-transparent mb-1">
+    <!-- auftraginfo ende -->
+    <div class="card w-100 bg-transparent">
       <div class="card card-header bg-transparent">
-        <h5 class="card-title">Neue Aufgabe</h5>
+        <h5 v-if="$route.query.aufgabe" class="card-title">{{ header}}</h5>
+        <h5 v-else class="card-title">{{'Aufgabe'}}</h5>
         <ul class="nav justify-content-center">
           <li class="nav-item">
             <a class="nav-link" @click.prevent="showkontaktinfo=true " href="#">Kontakte Hinzufügen</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link"  @click.prevent="showcreateaufgabe = true"  href="#">Neue Aufgabe</a>
+            <a class="nav-link" @click.prevent="showcreateaufgabe = true" href="#">Neue Aufgabe</a>
           </li>
-            <li class="nav-item">
-            <a class="nav-link"  @click.prevent="showkopierenaufgabe = true"  href="#">Aufgabe Kopieren</a>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              @click.prevent="showkopierenaufgabe = true"
+              href="#"
+            >Aufgabe Kopieren</a>
           </li>
         </ul>
       </div>
     </div>
-    <div
-    v-if="showcreateaufgabe === true"
-    class="card">
+    <div v-if="showcreateaufgabe === true" class="card">
       <div class="card-body">
         <div class="form-row">
           <div class="form-group col-md-12">
             <label for="inputTitele">Titel</label>
-            <input type="text" class="form-control" id="inputTitele" placeholder="Aufgabe Titel" v-model="aquery.titel"/>
+            <input
+              type="text"
+              class="form-control"
+              id="inputTitele"
+              placeholder="Aufgabe Titel"
+              v-model="aquery.titel"
+            />
           </div>
           <div class="form-group col-md-6">
             <label for="inputBeschreibung">Beschreibung</label>
@@ -44,54 +49,24 @@
           </div>
           <div class="form-group col-md-6">
             <label for="inputInfo">Info</label>
-            <textarea type="text" class="form-control" id="inputInfo" placeholder="Info" v-model="aquery.info" />
+            <textarea
+              type="text"
+              class="form-control"
+              id="inputInfo"
+              placeholder="Info"
+              v-model="aquery.info"
+            />
           </div>
         </div>
-    <button  type="button" class="btn btn-outline-primary" @click.prevent="addreateauftragnummer()" >Speichern</button>
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          @click.prevent="addreateauftragnummer()"
+        >Speichern</button>
       </div>
     </div>
 
-    <!-- alt body löschen -->
-    <div class="card-body"></div>
-    <div v-if="card=== true" class="card-group">
-      <div class="card mb-3 mr-2 mr-2" style="max-width: 540px;">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="/storage/material/Nero Impala.jpg" class="card-img" alt="..." />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Innen Fensterbänke</h5>
-              <p class="card-text">Nero Impala 2 cm poliert 12,5qm</p>
-              <p class="card-text">
-                <small class="text-muted">Last updated 3 mins ago</small>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card mb-3" style="max-width: 540px;">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="/storage/img/Unbenannt 2.bmp" class="card-img" alt="..." />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Küchenplatten</h5>
-              <p class="card-text">Nero Impala 3 cm poliert 25,12qm</p>
-
-              <p class="card-text">Status: Anfrage</p>
-              <p class="card-text">
-                <small class="text-muted">Last updated 3 mins ago</small>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- alt body oben -->
-    <div class="card mt-2">
+    <div class="card" v-if="$route.query.aufgabe">
       <form @submit.prevent="addPost">
         <div class="card card-header">
           <label class="sr-only" for="inlineFormInputGroup">Material</label>
@@ -218,7 +193,7 @@
             <div class="card bg-transparent border-0">
               <div class="card-body">
                 <div class="form-group col-md-2">
-                  <img :src="'/storage/img/'+svgimg" class="card-img  svd-img  " alt="..." />
+                  <img :src="'/storage/img/'+svgimg" class="card-img svd-img" alt="..." />
                 </div>
               </div>
             </div>
@@ -322,21 +297,23 @@
   height: 25px;
 }
 .svd-img {
-    width: 160px;
-    height: 45px;
+  width: 160px;
+  height: 45px;
 }
 </style>
 <script>
 import svgpage from "./svg.vue";
- import Auftraginfo from './Auftraginfo.vue'
+import Auftraginfo from "./Auftraginfo.vue";
 export default {
   data: function() {
     return {
-        showcreateaufgabe:false,
+        header:'',
+      aufgabe: "",
+      showcreateaufgabe: false,
       card: false,
       error: "",
       searchQuery: "",
-      aufgabenumm: "",
+      aufgabenumm: {},
       material: {},
       showmaterialid: "",
       materialshow: "5",
@@ -365,7 +342,7 @@ export default {
       query: {
         stuck: "1"
       },
-      aquery:{},
+      aquery: {},
       searchQuery: " ",
       name: "",
       mtotal: "0",
@@ -489,6 +466,11 @@ export default {
       if (val > 0) {
         this.materialeach(val);
       }
+    },
+    "$route.query.aufgabe"() {
+      this.aufgabe = this.$route.query.aufgabe;
+      this.postqueryshow(this.$route.query.aufgabe);
+      this.eachauftrag(this.$route.query.aufgabe);
     }
   },
 
@@ -503,28 +485,27 @@ export default {
 
     addinfoauftragnummer() {
       let uri;
-      this.aquery.projekt_id=this.$route.query.projekt
+      this.aquery.projekt_id = this.$route.query.projekt;
+      this.aufgabe = this.$route.query.aufgabe;
 
       uri = "/api/info/aufgabenummer";
 
       axios
-        .post(uri, 'projekt_id='+this.$route.query.projekt)
+        .post(uri, "projekt_id=" + this.$route.query.projekt)
         .then(response => (this.aufgabenumm = response.data));
-
-
     },
     addreateauftragnummer() {
       let uri;
-      this.aquery.projekt_id=this.$route.query.projekt
+      this.aquery.aufgabeteile_id = this.$route.query.aufgabe;
 
       uri = "/api/create/aufgabenummer";
 
       axios
-        .post(uri,this.aquery)
+        .post(uri, this.aquery)
         .then(response => (this.aufgabe = response.data));
 
-        this.showcreateaufgabe=false;
-        this.addinfoauftragnummer();
+      this.showcreateaufgabe = false;
+      this.addinfoauftragnummer();
     },
 
     searchQuerypost() {
@@ -555,45 +536,50 @@ export default {
       let uri;
       this.query.leange = this.query.leange.replace(",", ".") * 1000;
       this.query.breite = this.query.breite.replace(",", ".") * 1000;
+      this.query.aufgabeteile_id = this.$route.query.aufgabe;
 
-      if (
-        this.projektid >= 1 &&
-        this.starkid >= 1 &&
-        this.mid >= 1 &&
-        this.artid >= 1 &&
-        this.query.leange >= 5 &&
-        this.query.breite >= 5
-      ) {
-        this.query.materialid = this.mid;
-        this.query.starkid = this.starkid;
-        this.query.artid = this.artid;
-        this.query.projektid = this.projektid;
-        this.query.UK = this.UK;
-        this.query.VK = this.VK;
-        this.query.KL = this.KL;
-        this.query.KR = this.KR;
-        this.query.KH = this.KH;
-        this.query.SK = this.SK;
-        this.query.svgpath = this.svgimg;
-        this.query.leange = this.query.leange;
-        this.query.breite = this.query.breite;
-        this.query.nummber = this.nummber;
-        uri = "/api/create/aufgabeliste";
+      this.query.materialid = this.mid;
+      this.query.starkid = this.starkid;
+      this.query.artid = this.artid;
+      this.query.projektid = this.$route.query.projekt;
+      this.query.UK = this.UK;
+      this.query.VK = this.VK;
+      this.query.KL = this.KL;
+      this.query.KR = this.KR;
+      this.query.KH = this.KH;
+      this.query.SK = this.SK;
+      this.query.svgpath = this.svgimg;
+      this.query.leange = this.query.leange;
+      this.query.breite = this.query.breite;
+      this.query.nummber = this.nummber;
+      uri = "/api/create/aufgabeliste";
 
-        axios
-          .post(uri, this.query)
-          .then(
-            response => (
-              (this.aufgabenliste = response.data),
-              (this.countliste = response.data.aufgabelist.length)
-            )
-          );
-        this.$refs.nummer.focus();
-        this.error = false;
-      } else {
-        this.error = "Bitte alles Ausfüllen Länge und Breite ";
-        this.posterror();
-      }
+      axios
+        .post(uri, this.query)
+        .then(
+          response => (
+            (this.aufgabenliste = response.data),
+            (this.countliste = response.data.aufgabelist.length)
+          )
+        );
+
+      this.$refs.nummer.focus();
+    },
+       eachauftrag(val) {
+      let aufgabenum;
+      let titel;
+         this.aufgabenumm.auftragnummer.forEach((value, index) => {
+           if (val == value.teile_id) {
+             aufgabenum = value.teilenum;
+              titel = value.titel;
+
+           }
+
+
+         });
+//this.header = val;
+this.header = "Bearbeite: " + titel + " Augabe: " + aufgabenum;
+
     },
 
     posterror: function() {
@@ -606,12 +592,13 @@ export default {
       }
     },
 
-    postqueryshow: function() {
+    postqueryshow: function(val) {
       let uri;
+
       uri = "/api/show/queryshow";
 
       axios
-        .post(uri, "projektid=" + this.projektid)
+        .post(uri, "aufgabeteile_id=" + this.aufgabe)
         .then(
           response => (
             (this.aufgabenliste = response.data),
@@ -619,6 +606,7 @@ export default {
           )
         );
     },
+
     svgshow: function() {
       let standart = "Standart.svg";
       let AKimg = "Standardall.svg";
@@ -833,7 +821,9 @@ export default {
   filters: {
     bemassung: function(val) {
       return val + " cm";
-    }
+    },
+
+
   },
   mounted() {
     console.log("Component mounted.");

@@ -22,7 +22,7 @@ class AufgabenummerController extends Controller
         ->leftJoin('aufgabenummers', 'aufgabenummers.id', '=', 'aufgabeteiles.aufgabenum_id')
         ->leftJoin('statuss', 'statuss.id', '=', 'aufgabenummers.status_id')
         ->where('aufgabenummers.projekt_id',$request->projekt_id )
-        ->select('aufgabeteiles.teilenum' , 'aufgabenummers.*', 'statuss.status', 'statuss.css')
+        ->select('aufgabeteiles.teilenum' ,'aufgabeteiles.id AS teile_id', 'aufgabenummers.*', 'statuss.status', 'statuss.css')
         ->get();
 
 
@@ -79,12 +79,12 @@ class AufgabenummerController extends Controller
          $teile->save();
          $teilenum=Aufgabenteile::where('aufgabenum_id', $key->id)->get();
          Aufgabenteile::where('random', $random)
-          ->update(['teilenum'=>count($teilenum)
+          ->update(['teilenum'=> $NUMM . '-'. count($teilenum)
           ]);
             $auftrag=DB::table('aufgabeteiles')
             ->leftJoin('aufgabenummers', 'aufgabenummers.id', '=', 'aufgabeteiles.aufgabenum_id')
             ->where('aufgabeteiles.aufgabenum_id',$key->id )
-            ->select('aufgabeteiles.teilenum' , 'aufgabenummers.*')
+            ->select('aufgabeteiles.teilenum' ,'aufgabeteiles.id AS teile_id', 'aufgabenummers.*')
             ->get();
 
 

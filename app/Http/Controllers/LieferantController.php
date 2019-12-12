@@ -15,7 +15,10 @@ class LieferantController extends Controller
      */
     public function index()
     {
-        //
+        $kunde = Kunden::where('lieferantconf', '1')->get();
+        return response()->json([
+            'kunde' => $kunde,
+            ]);
     }
 
     /**
@@ -52,7 +55,7 @@ class LieferantController extends Controller
 
         $kunde = Kunden::where('lieferantconf', '1')
         ->Where('name', 'LIKE',  '%'. $request->suchen . '%')
-  
+
             ->paginate(15);
 
 

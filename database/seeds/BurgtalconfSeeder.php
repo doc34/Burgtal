@@ -16,6 +16,7 @@ class BurgtalconfSeeder extends Seeder
          App\Burtalconf::updateOrCreate(['key' => 'PROJEKT_COD', 'var'=>'PJ-']);
          App\Burtalconf::updateOrCreate(['key' => 'AUFGABE_COD', 'var'=>'AF-']);
          App\Burtalconf::updateOrCreate(['key' => 'AUFGABE_NUMM', 'var'=>'100']);
-
+         App\Burtalconf::updateOrCreate(['key' => 'LIEFERANT_COD', 'var'=>'LF']);
     }
 }
+

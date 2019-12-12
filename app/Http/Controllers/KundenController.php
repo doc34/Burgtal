@@ -51,7 +51,7 @@ class KundenController extends Controller
         $kn = '';
         $lief='';
         $kun='';
-       
+
         $random = time();
         $user = Auth::user();
         $lief=$request->lieferantenconf;
@@ -72,14 +72,14 @@ class KundenController extends Controller
                 ->update(['num' => $kn]);
         }
 
-//TODO Kundennummer lieferantennummer
+
         if ( $lief == 1 ) {
             $Lieferantnum = new Lieferant;
             $Lieferantnum->random = $random;
             $Lieferantnum->user_id = $user->id;
             $Lieferantnum->save();
             $lNUM = Lieferant::where('random', $random)->first();
-            $ln = $lcod->var. ($lNUM->id + $knumm)->var;
+            $ln = $lcod->var. ($lNUM->id +  $knumm->var);
             Lieferant::where('random', $random)
                 ->update(['num' => $ln]);
 
@@ -110,12 +110,12 @@ class KundenController extends Controller
         $kunde->rechtsform_id = $request->rechtsformid;
         $kunde->user_id = $user->id;
         $kunde->save();
-if ($request->kundenconf == 1 ){
+
         return response()->json([
             'kundennum' =>  $kn,
             'page'=>$request->page
         ]);
-}
+
     }
 
     /**

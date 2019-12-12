@@ -15,9 +15,7 @@ class AufgabenlisteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-
-    }
+    { }
 
     /**
      * Show the form for creating a new resource.
@@ -29,7 +27,7 @@ class AufgabenlisteController extends Controller
         //
     }
 
-  /**
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -37,18 +35,18 @@ class AufgabenlisteController extends Controller
     public function queryshow(Request $request)
     {
         $Aufgabeliste = DB::table('aufgabenlistes')
-        ->leftJoin('arts', 'arts.id', '=', 'aufgabenlistes.art_id')
-        ->leftJoin('materials', 'materials.id', '=', 'aufgabenlistes.material_id')
-        ->leftJoin('starcks', 'starcks.id', '=', 'aufgabenlistes.stark_id')
-        ->select('materials.material','arts.art','starcks.stark',  'aufgabenlistes.*')
-        ->where('aufgabenlistes.projekt_id', '=', $request->projektid)
-        ->orderBy('aufgabenlistes.a_num', 'desc')
-        ->get();
+            ->leftJoin('arts', 'arts.id', '=', 'aufgabenlistes.art_id')
+            ->leftJoin('materials', 'materials.id', '=', 'aufgabenlistes.material_id')
+            ->leftJoin('starcks', 'starcks.id', '=', 'aufgabenlistes.stark_id')
+            ->select('materials.material', 'arts.art', 'starcks.stark',  'aufgabenlistes.*')
+            ->where('aufgabenlistes.aufgabeteile_id', '=', $request->aufgabeteile_id)
+            ->orderBy('aufgabenlistes.created_at', 'desc')
+            ->get();
 
-    return response()->json(
-        ["aufgabelist" => $Aufgabeliste]
+        return response()->json(
+            ["aufgabelist" => $Aufgabeliste]
 
-    );
+        );
     }
 
     /**
@@ -57,53 +55,53 @@ class AufgabenlisteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,aufgabenliste $aufgabenliste)
+    public function store(Request $request, aufgabenliste $aufgabenliste)
     {
 
         $user = Auth::user();
 
-$part='/storage/img/';
-       $laenge=$request->leange;
-       $breite=$request->breite;
-       $qm=($laenge*$breite/1000000);
-       if($qm < 0.2){
-           $qm=0.2;
-       }
+        $part = '/storage/img/';
+        $laenge = $request->leange;
+        $breite = $request->breite;
+        $qm = ($laenge * $breite / 1000000);
+        if ($qm < 0.2) {
+            $qm = 0.2;
+        }
 
 
-    $nummber=$request->nummber;
+        $nummber = $request->nummber;
 
 
-for ($i=0; $i < $request->stuck; $i++) {
+        for ($i = 0; $i < $request->stuck; $i++) {
 
-        $store = new Aufgabenliste;
-        $store->laenge = $laenge ;
-        $store->breite = $breite ;
-        $store->svgpath = $part.$request->svgpath;
-        $store->VK = $request->VK;
-        $store->UK = $request->UK;
-        $store->KL = $request->KL;
-        $store->KR = $request->KR;
-        $store->KH = $request->KH;
-        $store->SK = $request->SK;
-        $store->qm = $qm;
-        $store->a_num = $nummber;
-        $store->art_id = $request->artid;
-        $store->stark_id = $request->starkid;
-        $store->projekt_id = $request->projektid;
-        $store->material_id = $request->materialid;
-        $store->user_id = $user->id;
-     $store->save();
-     $nummber=$nummber++;
-
-}
+            $store = new Aufgabenliste;
+            $store->laenge = $laenge;
+            $store->breite = $breite;
+            $store->svgpath = $part . $request->svgpath;
+            $store->VK = $request->VK;
+            $store->UK = $request->UK;
+            $store->KL = $request->KL;
+            $store->KR = $request->KR;
+            $store->KH = $request->KH;
+            $store->SK = $request->SK;
+            $store->qm = $qm;
+            $store->a_num = $nummber;
+            $store->aufgabeteile_id = $request->aufgabeteile_id;
+            $store->art_id = $request->artid;
+            $store->stark_id = $request->starkid;
+            $store->projekt_id = $request->projektid;
+            $store->material_id = $request->materialid;
+            $store->user_id = $user->id;
+            $store->save();
+            $nummber++;
+        }
         $Aufgabeliste = DB::table('aufgabenlistes')
             ->leftJoin('arts', 'arts.id', '=', 'aufgabenlistes.art_id')
             ->leftJoin('materials', 'materials.id', '=', 'aufgabenlistes.material_id')
             ->leftJoin('starcks', 'starcks.id', '=', 'aufgabenlistes.stark_id')
-            ->select('materials.material','arts.art','starcks.stark',  'aufgabenlistes.*')
-            ->where('aufgabenlistes.projekt_id', '=', $request->projektid)
-            ->orderBy('aufgabenlistes.a_num', 'dec')
+            ->select('materials.material', 'arts.art', 'starcks.stark',  'aufgabenlistes.*')
+            ->where('aufgabenlistes.aufgabeteile_id', '=', $request->aufgabeteile_id)
+            ->orderBy('aufgabenlistes.created_at', 'desc')
             ->get();
 
         return response()->json(
