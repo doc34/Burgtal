@@ -51,8 +51,7 @@
     <div v-if="projekt.projekt">
       <Kontakte-Form
         v-if="this.$route.query.page =='kontakt' "
-        v-bind:projektid="this.$route.query.projekt"
-        v-bind:kundenid="projekt.projekt.kunden_id"
+
       ></Kontakte-Form>
 
   <!-- Auggaben form -->

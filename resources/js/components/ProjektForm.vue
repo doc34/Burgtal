@@ -214,7 +214,7 @@ export default {
       this.routget();
     },
     routget: function() {
-      if (empty(this.$router.params)) {
+      if (this.$router.params) {
         this.kundennum = this.$router.params.kundennum;
       } else {
         this.kundennum = "hallo";

@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="card col-11 ml-3">
+    <div class="card col-11">
       <div class="card-body">
         <div class="form-row align-items-center">
           <div class="form-group col-md-3 col-sm-12">
@@ -51,7 +51,7 @@
         </div>
       </div>
     </div>
-    <div class="col-2">
+    <div class="col-md-4 col-sm-12 col-lg-2">
       <!-- Material nav -->
       <div v-if="material.material" class="card">
         <div class="card-header bg-transparent">
@@ -107,10 +107,10 @@
       </div>
     </div>
     <!-- form input -->
-    <div class="col-10">
+    <div class="col-md-8 col-lg-10 col-sm-12">
       <div class="row">
         <div class="card col-12">
-          <div class="card-body">
+          <div v-if=" showupdate === false" class="card-body">
             <div class="card-header bg-transparent">
               <h4 class="card-text">
                 {{materialname + ' ' +starkname }}
@@ -129,7 +129,7 @@
                     <input
                       type="text"
                       class="form-control"
-                      name
+                      v-model="query.materialname"
                       id="materialNameLieferant"
                       aria-describedby="helpId"
                       placeholder="Lieferanten Materialname"
@@ -158,10 +158,11 @@
                 <div v-if="showformart=== true  " class="form-group col-md-2 col-sm-6">
                   <div class="form-group">
                     <label for>Format</label>
-                    <select class="custom-select" name id>
+                    <select class="custom-select" v-model="query.format_id">
                       <option
                         v-for="format in format"
                         :key="format.id"
+                        :value="format.id"
                       >{{format.format + ' ' + format.format_info}}</option>
                     </select>
                   </div>
@@ -189,39 +190,181 @@
               </div>
             </form>
           </div>
+          <div v-if="showupdate === true" class="card-body">
+            <div class="form-row">
+              <div class="form-group col-md-2 col-sm-12 mt-4">
+                <input
+                  type="text"
+                  class="form-control-plaintext border-bottom"
+                  v-model="update.alias"
+                  id="inputPreis"
+                  aria-describedby="helpId"
+                  disabled
+                />
+              </div>
+              <div class="form-group col-md-2 col-sm-12 mt-4">
+                <input
+                  type="text"
+                  class="form-control-plaintext border-bottom"
+                  v-model="update.alias"
+                  id="inputPreis"
+                  aria-describedby="helpId"
+                  disabled
+                />
+              </div>
+              <div class="form-group col-md-2 col-sm-12 mt-4">
+                <input
+                  type="text"
+                  class="form-control-plaintext border-bottom"
+                  v-model="update.material"
+                  id="inputPreis"
+                  aria-describedby="helpId"
+                  disabled
+                />
+              </div>
+              <div class="form-group col-md-2 col-sm-12 mt-4">
+                <input
+                  type="text"
+                  class="form-control-plaintext border-bottom"
+                  v-model="update.stark"
+                  id="inputPreis"
+                  aria-describedby="helpId"
+                  disabled
+                />
+              </div>
+              <div class="form-group col-md-2 col-sm-12 mt-4">
+                <input
+                  type="text"
+                  class="form-control-plaintext border-bottom"
+                  v-model="update.art"
+                  id="inputPreis"
+                  aria-describedby="helpId"
+                  disabled
+                />
+              </div>
+              <div class="form-group col-md-2 col-sm-12">
+                <label for="inputPreis">Preis</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="update.preis"
+                  id="inputPreis"
+                  aria-describedby="helpId"
+                  placeholder
+                />
+              </div>
+              <div class="form-group col-md-6 col-sm-12">
+                <label for="inputPreis">Info</label>
+                <textarea class="form-control" v-model="update.info"></textarea>
+              </div>
+            </div>
+
+            <div class="btn-group btn-group-toggle">
+              <button type="submit" class="btn btn-primary form-control">Speichern</button>
+              <button
+                type="button"
+                @click="showupdate=false"
+                class="btn btn-dark form-control float-right"
+              >Zurück</button>
+            </div>
+          </div>
         </div>
+
         <!-- table preis -->
         <div class="card col-12">
-          <div v-if="preisliste.preisliste" class="card-body">
-            <table class="table table-hover table-striped">
+          <div class="card-body">
+            <table
+              v-if="produkt.produkt"
+              class="table table-hover table-striped table-responsive-md"
+            >
               <thead>
                 <tr>
-                  <th>id</th>
+                  <th>Cod</th>
                   <th>Lieferant</th>
                   <th>Name</th>
-                  <th>stark</th>
-                  <th>art</th>
+                  <th>Stark</th>
+                  <th>Art</th>
+                  <th>Format</th>
                   <th>EK</th>
                   <th>EV</th>
                   <th></th>
                 </tr>
               </thead>
-              <tbody>
-                <tr v-for="list in preisliste.preisliste" :key="list.id">
-                  <td scope="row">{{list.materal_list_cod}}</td>
-                  <td>{{list.name + ' ' + list.alias}}</td>
-                  <td>{{list.material}}</td>
-                  <td>{{list.stark | bemassung }}</td>
-                  <td>{{list.art}}</td>
-                  <td>{{list.preis + ' €'}}</td>
-                  <td>{{ list.preis*list.factor | Nummer }}</td>
+              <tbody v-for="list in produkt.produkt" :key="'l'+list.produktid">
+                <tr class="table-dark text-dark">
+                  <td scope="row"></td>
+                  <td>{{list.material + ' '+ list.stark+ ' cm ' + list.art }}</td>
+                  <td>{{ list.EKpreis*list.factor |Nummer }}</td>
                   <td>
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                      <button type="button" class="btn btn-outline-dark">Edit</button>
-                      <button type="button" class="btn btn-outline-info">Bild</button>
-                      <button type="button" @click.prevent="delmaterial(list.id)"  class="btn btn-danger">Löschen</button>
+                    <div class="form-group">
+                      <select class="custom-select" name id="selectfactor">
+                        <option v-for="factor in factor" :key="factor.id">
+                            <div class="row"  >
+                                <dt class="col-sm-3">{{ 'factor ist '+ factor.factor +' neuer Preis ist'}}</dt>
+  <dd class=" text-black-50 float-right ">{{ factor.factor*list.EKpreis|Nummer}}</dd>
+
+</div>
+                        </option>
+                      </select>
                     </div>
                   </td>
+                  <td>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                      <button
+                        type="button"
+                        @click.prevent=" creatupdate(list.produktid)"
+                        class="btn btn-outline-dark"
+                      >Edit</button>
+                      <button type="button" class="btn btn-outline-info">Bild</button>
+                      <button
+                        type="button"
+                        @click.prevent="delmaterial(list.produktid)"
+                        class="btn btn-danger"
+                      >Löschen</button>
+                    </div>
+                  </td>
+                </tr>
+
+                <th>Kunde</th>
+                <th>Ek Preis</th>
+                <th>VK Preis</th>
+                <th>Preis</th>
+                <th></th>
+
+                <tr v-for="preis in minpreis.showmin" :key="preis.id">
+                  <template v-if="preis.produkt_id === list.produktid ">
+                    <td v-if="preis.produkt_id === list.produktid ">{{ preis.alias }}</td>
+                    <td v-if="preis.produkt_id === list.produktid">{{ preis.EKpreis + ' €' }}</td>
+                    <td
+                      v-if="preis.produkt_id === list.produktid"
+                    >{{ preis.EKpreis * list.factor | Nummer }}</td>
+
+                    <td
+                      v-if="preis.produkt_id === list.produktid"
+                    >{{ (preis.EKpreis * list.factor) - preis.EKpreis | Nummer }}</td>
+                    <td>
+                      <input
+                        v-if="preis.activ === 1"
+                        class="form-check-input"
+                        type="radio"
+                        :name="'activeeRadios'+list.produktid"
+                        :id="'exampleRadios'+list.produktid "
+                        checked
+                        @click.prevent="postcheckekpreis( preischeck.id=list.produktid, preischeck.ekpreis_id=preis.id  )"
+                      />
+
+                      <input
+                        v-else
+                        class="form-check-input"
+                        type="radio"
+                        :name="'activeeRadios'+list.produktid"
+                        :id="'exampleRadios'+list.produktid "
+                        v-html="list.produktid"
+                        @click.prevent="postcheckekpreis( preischeck.id=list.produktid, preischeck.ekpreis_id=preis.id  )"
+                      />
+                      <label class="form-check-label" :for="'activeRadios'+list.produktid">check</label>
+                    </td>
+                  </template>
                 </tr>
               </tbody>
             </table>
@@ -254,16 +397,26 @@ export default {
       showartid: [],
       showstarkid: [],
       showformart: false,
+      showupdate: false,
       material: {},
       searchQuery: "",
       searchLieferant: [],
       materiallist: {},
+      minpreis: [],
+      preischeck: {
+        id: "",
+        ekpreis_id: ""
+      },
+      checkedNames: [],
       lieferant: [],
       preisliste: {},
+      produkt: [],
+      factor: "",
       preis: "",
       description: "",
       output: [],
       query: {},
+      update: {},
       material_id: "",
       materialname: "",
       starkname: "",
@@ -287,6 +440,7 @@ export default {
     this.Materiallist();
     this.getmaterial();
     this.postsearchLieferant();
+    this.Factor();
   },
 
   watch: {
@@ -295,10 +449,10 @@ export default {
     },
     material_id: function(val, oldval) {
       this.searchpreisliste.material_id = val;
-
+      this.showupdate = false;
       this.materialeach(val);
-
       this.postserarch(val);
+      this.postshowmin();
     },
     stark_id: function(val, oldval) {
       this.starkeach(val);
@@ -309,11 +463,29 @@ export default {
     },
     maleriallist_id: function(val, oldval) {
       this.formatconf(val);
+    },
+    showupdate: function(val, oldval) {
+      if (val == false) {
+        this.update.id = "";
+        this.update.id = "";
+        this.update.alias = "";
+        this.update.art = "";
+        this.update.stark = "";
+        this.update.material = "";
+        this.update.preis = "";
+        this.update.info = "";
+        this.update.materal_list_cod = "";
+      }
     }
+    // "preischeck.ekpreis_id"() {}
   },
 
   computed: {},
   methods: {
+    namefactorLang(factor, id) {
+      return factor.factor;
+    },
+
     nameWithLang({ alias, name }) {
       if (alias) {
         return `${alias} - ${name}`;
@@ -321,7 +493,13 @@ export default {
         return `${name}`;
       }
     },
-
+    checkcss(ekpreis_id, id) {
+      if (ekpreis_id === id) {
+        return checked;
+      } else {
+        return disabelt;
+      }
+    },
     cssclass(val) {
       if (val == this.material_id) {
         return "list-group-item active";
@@ -344,6 +522,12 @@ export default {
     Art() {
       axios.get("/art").then(response => (this.options = response.data.art));
     },
+
+    Factor() {
+      axios
+        .post("/api/schow/factor")
+        .then(response => (this.factor = response.data.factor));
+    },
     Materiallist() {
       axios
         .get("api/materiallist")
@@ -354,11 +538,19 @@ export default {
       axios.get(uri).then(response => (this.lieferant = response.data.kunde));
     },
 
-    createart: function(id) {
-      this.art.art.forEach((value, index) => {
+    creatupdate: function(id) {
+      this.preisliste.preisliste.forEach((value, index) => {
         if (id == value.id) {
-          this.showartid[id] = true;
-          this.material_id.push("1");
+          this.update.id = value.id;
+          this.update.alias = value.alias;
+          this.update.art = value.art;
+          this.update.material = value.material;
+          this.update.stark = value.stark + " cm";
+          this.update.preis = value.preis;
+          this.update.info = value.info;
+          this.update.materal_list_cod = value.materal_list_cod;
+
+          this.showupdate = true;
         }
       });
     },
@@ -366,7 +558,7 @@ export default {
     postform() {
       let uri;
 
-      uri = "/api/store/prisliste";
+      uri = "/api/store/produkt";
 
       this.query.art_id = this.art_id;
       this.query.material_id = this.material_id;
@@ -378,21 +570,32 @@ export default {
       axios
         .post(uri, this.query)
         .then(response => (this.preisliste = response.data.preisliste));
-this.$refs.stark.focus();
-this.preis='';
- this.postserarch();
-
-
+      this.$refs.stark.focus();
+      this.preis = "";
+      this.postserarch();
+       this.postshowmin();
     },
     postserarch() {
       axios
-        .post("/api/serach/prisliste", this.searchpreisliste)
-        .then(response => (this.preisliste = response.data));
+        .post("/api/serach/produkt", this.searchpreisliste)
+        .then(response => (this.produkt = response.data));
     },
     getmaterial() {
       axios
         .post("/api/searchQuery/material", "suchen=" + this.searchQuery)
         .then(response => (this.material = response.data));
+    },
+    postshowmin() {
+      axios
+        .post("/api/showmin/ekpreise", "material_id=" + this.material_id)
+        .then(response => (this.minpreis = response.data));
+      this.postserarch();
+    },
+    postcheckekpreis() {
+      axios
+        .post("/api/checkpreis/ekpreise", this.preischeck)
+        .then(response => (this.preisch = response.data));
+      this.postserarch();
     },
 
     delmaterial(id) {
@@ -438,6 +641,7 @@ this.preis='';
     Nummer: function(val) {
       return val.toFixed(2) + " €";
     }
+    
   },
 
   mounted() {

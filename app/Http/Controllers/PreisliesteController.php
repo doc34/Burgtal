@@ -36,33 +36,22 @@ class PreisliesteController extends Controller {
 
     public function store( Request $request ) {
         $user = Auth::user();
+
+
+
         foreach ( $request->art_id as $art ) {
 
-            $new = new Preislieste;
-            $new->preis = $request->preis;
-            $new->kunde_id = $request->kunde_id;
-            $new->user_id = $user->id;
-            $new->art_id = $art['id'];
-            $new->material_id = $request->material_id;
-            $new->stark_id = $request->stark_id;
-            $new->materiallist_id = $request->materiallist_id;
-            $new->save();
+
+
+
+
+          
 
         }
 
-        $preisliste = DB::table( 'preisliestes AS P' )
-        ->leftJoin( 'kundens AS K', 'K'.'kundens.id', '=', 'P.kunden_id' )
-        ->leftJoin( 'starcks AS S', 'S'.'kundens.id', '=', 'P.stark_id' )
-        ->leftJoin( 'art AS A', 'A'.'kundens.id', '=', 'P.art_id' )
 
-        ->select( 'P.preis', 'S.stark', 'A.art' )
-        ->latest( 5 );
 
-        $success = count( $request->art_id ).' daten gespeichert';
-        return response()->json( [
-            'preisliste'=>$preisliste,
-            'success' => $success,
-        ] );
+
 
     }
 
@@ -88,7 +77,9 @@ class PreisliesteController extends Controller {
             ->leftJoin( 'materiallists', 'materiallists.id', '=', 'preisliestes.materiallist_id' )
             ->leftJoin( 'factors', 'factors.id', '=', 'materiallists.1_factor_id' )
             ->leftJoin( 'materials', 'materials.id', '=', 'preisliestes.material_id' )
-            ->select( 'preisliestes.id', 'preisliestes.preis', 'starcks.stark', 'arts.art', 'kundens.name', 'kundens.alias', 'materials.material','factors.factor','materiallists.materal_list_cod' )
+            ->leftJoin( 'formats', 'formats.id', '=', 'preisliestes.format_id' )
+            ->select( 'preisliestes.id', 'preisliestes.preis','preisliestes.info', 'starcks.stark', 'arts.art', 'kundens.name', 'kundens.alias',
+            'materials.material','factors.factor','materiallists.materal_list_cod','formats.format' )
             ->where( 'preisliestes.material_id', '=', $material )
             ->get();
         }
@@ -100,13 +91,17 @@ class PreisliesteController extends Controller {
             ->leftJoin( 'materiallists', 'materiallists.id', '=', 'preisliestes.materiallist_id' )
             ->leftJoin( 'factors', 'factors.id', '=', 'materiallists.1_factor_id' )
             ->leftJoin( 'materials', 'materials.id', '=', 'preisliestes.material_id' )
-            ->select( 'preisliestes.id', 'preisliestes.preis', 'starcks.stark', 'arts.art', 'kundens.name', 'kundens.alias', 'materials.material', 'factors.factor','materiallists.materal_list_cod')
+            ->leftJoin( 'formats', 'formats.id', '=', 'preisliestes.format_id' )
+            ->select( 'preisliestes.id', 'preisliestes.preis', 'preisliestes.info','starcks.stark', 'arts.art', 'kundens.name', 'kundens.alias',
+            'materials.material', 'factors.factor','materiallists.materal_list_cod','formats.format')
             ->where( 'preisliestes.material_id', '=', $material )
             ->where( 'preisliestes.kunde_id', '=', $Kunde )
 
             ->get();
 
         }
+
+        toaster()->add('Add message here');
         return response()->json( [
             'preisliste'=>$preisliste,
 

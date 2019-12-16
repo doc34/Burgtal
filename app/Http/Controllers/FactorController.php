@@ -33,9 +33,24 @@ class FactorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,Factor $factor)
     {
-        //
+       $info='';
+       $info=$request->info ;
+       $facto=$request->factor;
+
+       $flight = Factor::create(['factor' => $facto, 'info'=>$info ]);
+
+       $fact= $factor->show();
+
+       return response()->json( [
+           'factor'=>$fact
+
+       ] );
+
+
+
+
     }
 
     /**
@@ -46,7 +61,12 @@ class FactorController extends Controller
      */
     public function show(Factor $factor)
     {
-        //
+        $fact= $factor->show();
+
+        return response()->json( [
+            'factor'=>$fact
+
+        ] );
     }
 
     /**

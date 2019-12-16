@@ -164,7 +164,7 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-
+        Laralabs\Toaster\ToasterServiceProvider::class,
         /*
          * Package Service Providers...
          */

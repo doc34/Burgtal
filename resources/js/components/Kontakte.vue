@@ -59,7 +59,7 @@ export default {
       description: "",
       output:'',
       query: {
-        projektid: this.projekt,
+        projektid:this.$route.query.projekt ,
         kundenid: this.kunden
       }
     }

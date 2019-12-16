@@ -20,7 +20,7 @@ class CreateFormatsTable extends Migration
             $table->string('format_info', 100)->nullable($value = true);
             $table->timestamps();
         });
-        Schema::table('preisliestes', function (Blueprint $table) {
+        Schema::table('produkts', function (Blueprint $table) {
             $table->unsignedBigInteger('format_id')->nullable($value = true);
             $table->foreign('format_id')
                 ->references('id')->on('formats');
@@ -36,8 +36,8 @@ class CreateFormatsTable extends Migration
      */
     public function down()
     {
-        Schema::table('preisliestes', function (Blueprint $table) {
-            $table->dropForeign('preisliestes_format_id_foreign');
+        Schema::table('produkts', function (Blueprint $table) {
+            $table->dropForeign('produkts_format_id_foreign');
              $table->dropColumn('format_id',);
 
         });

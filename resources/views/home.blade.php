@@ -8,7 +8,7 @@
         </div>
 
         <div class="col-11 page">
-            
+
             <router-view></router-view>
         </div>
     </div>

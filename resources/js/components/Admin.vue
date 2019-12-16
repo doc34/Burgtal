@@ -5,12 +5,14 @@
         <adminnav></adminnav>
       </div>
       <div class="card-body">
-          
+
         <!-- Templade -->
         <AdminMaterial v-if="this.$route.query.page =='material' "></AdminMaterial>
       </div>
     </div>
     <MaterialEinkauf v-if="this.$route.query.page =='materialeinkauf' "></MaterialEinkauf>
+
+<MaterialLieferant v-if="this.$route.query.page =='materiallieferant'"  ></MaterialLieferant>
   </div>
 </template>
 
@@ -18,9 +20,10 @@
 import Adminnav from "./AdminNav";
 import AdminMaterial from "./AdminMaterial";
 import MaterialEinkauf from "./MaterialEinkauf";
+import MaterialLieferant from "./AdminMaterialLieferant";
 
 export default {
-  components: { Adminnav, AdminMaterial, MaterialEinkauf },
+  components: { Adminnav, AdminMaterial, MaterialEinkauf,MaterialLieferant },
 
   data: function() {
     return {

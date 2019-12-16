@@ -232,12 +232,7 @@ export default {
         return null;
       }
     },
-    load: {
-      type: Number,
-      default() {
-        return null;
-      }
-    }
+
   },
 
   data: function() {
@@ -247,7 +242,7 @@ export default {
       searchQuery: "",
       land: {},
       anrede: {},
-      load: this.load,
+
       query: {},
       name: "",
       description: "",
@@ -278,9 +273,9 @@ export default {
       if (this.kundenid) {
         this.query.kundenid = this.kundenid;
       }
-      if (this.projektid) {
-        this.query.projektid = this.projektid;
-      }
+
+        this.query.projektid = this.$route.query.projekt;
+     
     },
     searchQuerypost() {
       let uri;

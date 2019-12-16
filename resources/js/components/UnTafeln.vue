@@ -200,7 +200,7 @@
               </td>
               <td>{{block.r_qm}}</td>
               <td>{{block.v_qm}}</td>
-              <td>{{block.s_qm}}</td>
+              <td>{{block.s_qm }}</td>
               <td>{{block.created_at |formattedDate}}</td>
             </tr>
           </tbody>
@@ -211,7 +211,8 @@
 </template>
 
 <script>
-import moment from "moment";
+import moment from 'moment'
+moment.locale('de');
 export default {
   props: {},
 
@@ -353,9 +354,7 @@ export default {
       this.starkname = val;
       this.showstark = false;
     },
-    formattedDate(val) {
-      return moment(val).format("YYYY-MM-DD");
-    },
+
     formattedblock(val) {
       return moment(val).format("x");
     }
@@ -364,7 +363,11 @@ export default {
   filters: {
     bemassung: function(val) {
       return val + " cm";
-    }
+    },
+
+    formattedDate(val) {
+      return moment(val).format('MMMM Do YYYY');
+    },
   },
   mounted() {
     console.log("Component mounted.");

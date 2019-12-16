@@ -10,7 +10,8 @@
     <a @click.prevent="page='materialeinkauf'" class="nav-link" href="#">Material Einkauf</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+    <a class="nav-link " @click.prevent="page='materiallieferant'"
+     href="#" tabindex="-1" aria-disabled="true">Material Lieferant</a>
   </li>
 </ul>
 

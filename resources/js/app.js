@@ -46,6 +46,14 @@ Vue.component('flash-message', require('./components/FlashMessage.vue').default)
  *UnTafeln
  */
 
+import Notifications from 'vue-notification';
+import velocity from 'velocity-animate';
+
+Vue.use(Notifications, { velocity });
+Vue.component('toaster-group', require('laralabs-vue-toaster/src/ToasterGroupComponent.vue'));
+Vue.component('toaster-logic', require('laralabs-vue-toaster/src/ToasterLogicComponent.vue'));
+
+
  import Welcome from './components/dashboard.vue'
  import ProjektForm from './components/ProjektForm.vue'
  import Projekt from './components/Projekt.vue'

@@ -16,6 +16,7 @@ class CreateArtsTable extends Migration
         Schema::create('arts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('art');
+            $table->integer('sort')->default('10');
             $table->timestamps();
         });
     }

@@ -33,7 +33,9 @@ Route::post('/api/create/kunde', 'KundenController@store')->name('api.create.kun
 Route::get('api/show/format', function () {
     return  App\Format::all();
 });
-
+Route::get('api/showall/material', function () {
+    return  App\Material::all();
+});
 
 
 
@@ -86,6 +88,16 @@ Route::post('/api/updata/material', 'MaterialController@update')->name('api.upda
 Route::post('/api/del/material', 'MaterialController@destroy')->name('api.del.material');
 Route::post('/api/store/material', 'MaterialController@store')->name('api.store.material');
 Route::get('/api/lieferant', 'LieferantController@index')->name('api.lieferant');
-Route::post('/api/store/prisliste', 'PreisliesteController@store')->name('api.store.prisliste');
-Route::post('/api/serach/prisliste', 'PreisliesteController@serach')->name('api.store.prisliste');
-Route::post('/api/del/prisliste', 'PreisliesteController@destroy')->name('api.del.prisliste');
+
+// page Material einkauf  /api/checkpreis/ekpreise"
+Route::post('/api/store/produkt', 'ProduktController@store')->name('api.store.produkt');
+Route::post('/api/serach/produkt', 'ProduktController@serach')->name('api.serach.produkt');
+Route::post('/api/showmin/ekpreise', 'EKPreiseController@showmin')->name('api.showmin.ekpreise');
+Route::post('/api/checkpreis/ekpreise', 'ProduktController@ckeckpreis')->name('api.checkpreis.ekpreise');
+// page Factor
+Route::post('/api/schow/factor', 'FactorController@show')->name('api.schow.factor');
+Route::post('/api/store/factor', 'FactorController@store')->name('api.store.factor');
+
+
+Route::post('/api/del/produkt', 'PreisliesteController@destroy')->name('api.del.produkt');
+Route::post('/api/schow/materiallieferant', 'MaterialLieferantController@show')->name('api.schow.materiallieferant');
